@@ -15,12 +15,8 @@ const app = express();
 // Configurar CORS
 app.use(cors());
 
-// lectura del body parseo , colocar antes de las rutas
-app.use(express.json());
-
 // Base de datos , llamar la funcion 
 dbConnection();
-
 //console.log(process.env);
 // usuario mean_user
 // contraseña iykDG6EPqiA8GE3T
@@ -29,8 +25,6 @@ dbConnection();
 // Esto es lo que se va a ejecutar cuando alguin haga una solicitud
 
 app.use('/api/usuarios', require('./routes/usuarios'));
-// ruta para login
-app.use('/api/login', require('./routes/auth'));
 
 
 // Para levantarlo ,escojer el puerto,despues un callback que se ejecuta caundo este corriendo

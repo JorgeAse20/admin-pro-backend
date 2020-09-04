@@ -29,9 +29,6 @@ dbConnection();
 // Esto es lo que se va a ejecutar cuando alguin haga una solicitud
 
 app.use('/api/usuarios', require('./routes/usuarios'));
-// ruta para login
-app.use('/api/login', require('./routes/auth'));
-
 
 // Para levantarlo ,escojer el puerto,despues un callback que se ejecuta caundo este corriendo
 app.listen(process.env.PORT, () => {
