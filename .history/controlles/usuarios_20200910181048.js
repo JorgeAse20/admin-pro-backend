@@ -28,7 +28,7 @@ const getUsuarios = async(req, res) => {
     // ambas promesas se ecutan de manera simultanea
     const [usuarios, total] = await Promise.all([
         Usuario.
-        find({}, 'nombre email role google img')
+        find({}, 'nombre email role google')
         //que se salte todos los registros desde el desde
         .skip(desde)
         .limit(5),

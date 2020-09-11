@@ -23,25 +23,13 @@ const getUsuarios = async(req, res) => {
     // obtener los usuarios
     //para especificar un dato en especifico ,const usuarios = await Usuario.find({}, 'nombre'); o const usuarios = await Usuario.find({}, 'nombre email rol');
 
-
-
-    // ambas promesas se ecutan de manera simultanea
-    const [usuarios, total] = await Promise.all([
-        Usuario.
-        find({}, 'nombre email role google img')
-        //que se salte todos los registros desde el desde
-        .skip(desde)
-        .limit(5),
-
-        Usuario.countDocuments()
-    ]);
+    const usuarios = await Usuario.find({}, 'nombre email role google');
 
     //se retornan objetos
     res.json({
         ok: true,
         // respuesta
         usuarios,
-        total
         // uid: req.uid
     });
 }
