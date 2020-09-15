@@ -120,12 +120,12 @@ const renewToken = async(req, res = response) => {
     const uid = req.uid;
 
     //  generar un TOKEN -JWT
-    const token = await generarJWT(uid);
+    const token = await generarJWT(usuario.id);
 
 
     res.json({
         ok: true,
-        token
+        uid
     });
 }
 

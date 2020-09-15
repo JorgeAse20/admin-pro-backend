@@ -2,52 +2,59 @@
 
 // para el tipado
 const { response } = require('express');
-const Hospital = require('../models/hospital');
 
-const getHospitales = async(req, res = response) => {
+// Inportar modelo
+const Medico = require('../models/medico');
 
-    const hospitales = await Hospital.find()
+const getMedicos = async(req, res = response) => {
+
+    const medicos = await Medico.find()
         .populate('usuario', 'nombre  img')
+        .populate('hospital', 'nombre  img')
 
     res.json({
 
         ok: true,
-        hospitales
-        // msg: 'get hospitales'
+        medicos
+        // msg: 'get medicos'
     });
 }
 
-const crearHospital = async(req, res = response) => {
+const crearMedico = async(req, res = response) => {
 
+    // extracccion del uid
     const uid = req.uid;
-    const hospital = new Hospital({
+    // creaccion de la instancia
+    // desostricturar lo que viene en la request
+    const medico = new Medico({
         usuario: uid,
         ...req.body
     });
 
+
     try {
 
-        const hospitalDB = await hospital.save();
+        const medicoDB = await medico.save();
 
         res.json({
 
             ok: true,
-            hospital: hospitalDB
+            medico: medicoDB
         });
 
     } catch (error) {
-        console.log(error)
+        console.log(error);
         res.status(500).json({
             ok: false,
             msg: 'hable con el administrador'
         })
-    }
 
+    }
 
 
 }
 
-const actualizarHospital = async(req, res = response) => {
+const actualizarMedico = async(req, res = response) => {
 
     const id = req.params.id;
     const uid = req.uid;
@@ -55,32 +62,32 @@ const actualizarHospital = async(req, res = response) => {
     try {
 
         // obtener la referencia si existe ese uid
-        const hospital = await Hospital.findById(id);
+        const medico = await Medico.findById(id);
 
-        if (!hospital) {
+        if (!medico) {
             return res.status(404).json({
 
                 ok: true,
-                msg: 'Hospital no encontrado',
+                msg: 'Medico no encontrado',
                 id
             });
         }
 
         //hospital.nombre = req.body.nombre;
 
-        const cambiosHospital = {
+        const cambiosMedico = {
                 ...req.body,
                 usuario: uid
             }
             // guardar en la bd
-        const hospitalActualizado = await Hospital.findByIdAndUpdate(id, cambiosHospital, { new: true });
+        const medicoActualizado = await Medico.findByIdAndUpdate(id, cambiosMedico, { new: true });
 
 
 
         res.json({
 
             ok: true,
-            hospital: hospitalActualizado
+            medico: medicoActualizado
         });
 
     } catch (error) {
@@ -92,34 +99,33 @@ const actualizarHospital = async(req, res = response) => {
 
     }
 
-
 }
-const borrarHospital = async(req, res = response) => {
+const borrarMedico = async(req, res = response) => {
 
-    //id del hospital
+
     const id = req.params.id;
-
 
     try {
 
         // obtener la referencia si existe ese uid
-        const hospital = await Hospital.findById(id);
+        const medico = await Medico.findById(id);
 
-        if (!hospital) {
+        if (!medico) {
             return res.status(404).json({
 
                 ok: true,
-                msg: 'Hospital no encontrado',
+                msg: 'Medico no encontrado',
                 id
             });
         }
 
-        await Hospital.findByIdAndDelete(id);
+        await Medico.findByIdAndDelete();
+
 
         res.json({
 
             ok: true,
-            msg: "Hospital eliminado"
+            msg: "Medico borrado"
         });
 
     } catch (error) {
@@ -130,7 +136,6 @@ const borrarHospital = async(req, res = response) => {
         });
 
     }
-
 }
 
 
@@ -138,8 +143,8 @@ const borrarHospital = async(req, res = response) => {
 
 
 module.exports = {
-    getHospitales,
-    crearHospital,
-    actualizarHospital,
-    borrarHospital
+    getMedicos,
+    crearMedico,
+    actualizarMedico,
+    borrarMedico
 }

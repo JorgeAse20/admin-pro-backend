@@ -94,7 +94,7 @@ const actualizarHospital = async(req, res = response) => {
 
 
 }
-const borrarHospital = async(req, res = response) => {
+const borrarHospital = (req, res = response) => {
 
     //id del hospital
     const id = req.params.id;

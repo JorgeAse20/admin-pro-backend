@@ -100,42 +100,13 @@ const actualizarMedico = async(req, res = response) => {
     }
 
 }
-const borrarMedico = async(req, res = response) => {
+const borrarMedico = (req, res = response) => {
 
+    res.json({
 
-    const id = req.params.id;
-
-    try {
-
-        // obtener la referencia si existe ese uid
-        const medico = await Medico.findById(id);
-
-        if (!medico) {
-            return res.status(404).json({
-
-                ok: true,
-                msg: 'Medico no encontrado',
-                id
-            });
-        }
-
-        await Medico.findByIdAndDelete(id);
-
-
-        res.json({
-
-            ok: true,
-            msg: "Medico borrado"
-        });
-
-    } catch (error) {
-        console.log(error);
-        res.status(400).json({
-            ok: false,
-            msg: "Hable con el administrador"
-        });
-
-    }
+        ok: true,
+        msg: 'borrar medico'
+    });
 }
 
 

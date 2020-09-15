@@ -12,11 +12,11 @@ const { validationResult } = require('express-validator');
 const { validarJWT } = require('../middlewares/validar-jwt');
 
 const {
-    getMedicos,
-    crearMedico,
-    actualizarMedico,
-    borrarMedico
-} = require('../controlles/medicos');
+    getHospitales,
+    crearHospital,
+    actualizarHospital,
+    borrarHospital
+} = require('../controlles/hospitales');
 
 // Crear una constate router porque es una funcion 
 const router = Router();
@@ -25,40 +25,34 @@ const router = Router();
 
 // get llamar a todos los usuarios
 
-router.get('/', getMedicos);
+router.get('/', getHospitales);
 
 // Con el post vamos a crear un nuevo usuario
 // Para mandar varios midellweres se necesita poner en corchetes
 router.post('/', [
-
         validarJWT,
         //se valida que tiene inforacion
         check('nombre', 'El nombre del hospital es necesario').not().isEmpty(),
-        check('hospital', 'El hospital id debe ser valido').isMongoId(),
         validarCampos
     ],
-
-    // aqui se crea el medico
-    crearMedico
+    crearHospital
 );
 
-// Actualizar 
+// Actualizar usuaro
 
 router.put('/:id', [
         validarJWT,
-        //se valida que tiene inforacion
         check('nombre', 'El nombre del hospital es necesario').not().isEmpty(),
-        check('hospital', 'El hospital id debe ser valido').isMongoId(),
         validarCampos
 
     ],
-    actualizarMedico
+    actualizarHospital
 );
 
 // Borrar usuario
 
 router.delete('/:id',
-    borrarMedico
+    borrarHospital
 );
 // Exportar el router
 module.exports = router;
