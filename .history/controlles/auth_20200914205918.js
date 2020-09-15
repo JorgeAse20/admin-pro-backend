@@ -7,8 +7,6 @@ const Usuario = require('../models/usuario');
 
 const bcrypt = require('bcryptjs');
 const { generarJWT } = require('../helpers/jwt');
-const { googleVerify } = require('../helpers/google-verify');
-const usuario = require('../models/usuario');
 
 //funcion // async porque se necesita hacer peticiones
 const login = async(req, res = response) => {
@@ -69,50 +67,11 @@ const googleSignIn = async(req, res = response) => {
 
     const googleToken = req.body.token;
 
-
-    try {
-
-        const { name, email, picture } = await googleVerify(googleToken);
-
-        // Verificar si ya existe ese email en la BD 
-        const usuarioDB = await Usuario.findOne({ email });
-        let usuario;
-        // si el usuario no existe voy a crear uno nuevo
-        if (!usuarioDB) {
-            usuario = new Usuario({
-                nombre: name,
-                email,
-                password: '@@@',
-                img: picture,
-                google: true
-            });
-        } else {
-            // existe usuario
-            usuario = usuarioDB;
-            usuario.google = true;
-
-        }
-        // guardar en la BD
-        await usuario.save();
-
-        //  generar un TOKEN -JWT
-        const token = await generarJWT(usuario.id);
-
-        res.json({
-            ok: true,
-            token
-        });
-
-    } catch (error) {
-        res.status(401).json({
-            ok: false,
-            msg: 'Token no es correcto',
-
-        });
-
-    }
-
-
+    res.json({
+        ok: true,
+        msg: 'Google Signin',
+        googleToken
+    });
 }
 
 // Exportar como un objeto

@@ -76,10 +76,9 @@ const googleSignIn = async(req, res = response) => {
 
         // Verificar si ya existe ese email en la BD 
         const usuarioDB = await Usuario.findOne({ email });
-        let usuario;
         // si el usuario no existe voy a crear uno nuevo
-        if (!usuarioDB) {
-            usuario = new Usuario({
+        if (!usuario) {
+            usuario = new Usuario8({
                 nombre: name,
                 email,
                 password: '@@@',
@@ -96,7 +95,7 @@ const googleSignIn = async(req, res = response) => {
         await usuario.save();
 
         //  generar un TOKEN -JWT
-        const token = await generarJWT(usuario.id);
+        const token = await generarJWT(usuarioDB.id);
 
         res.json({
             ok: true,

@@ -19,10 +19,12 @@ router.post('/', [
 
     login
 
+
+
 );
 router.post('/google', [
-
         check('token', 'El token de google es obligatorio').not().isEmpty(),
+
         validarCampos
     ],
 
@@ -30,7 +32,7 @@ router.post('/google', [
 
 
 
-);
+)
 
 
 
